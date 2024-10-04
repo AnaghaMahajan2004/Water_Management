@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thane Water Management - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.5s ease-in-out;
+        }
+
+        header {
+            background: rgba(0, 51, 102, 0.9);
+            color: #ffffff;
+            padding: 1em 2em;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.5s;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        nav {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap; /* Ensure items wrap if there's not enough space */
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 0.8em; /* Reduced margin slightly */
+            font-size: 1.1em;
+            position: relative;
+            transition: color 0.3s;
+            white-space: nowrap; /* Prevents text from breaking */
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        nav a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #ffd700;
+            transition: width 0.3s;
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Responsive Navigation */
+        @media (max-width: 768px) {
+            header {
+                padding: 1em;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 1em;
+            }
+
+            nav a {
+                margin: 0.5em 0;
+                font-size: 1em;
+            }
+        }
+
+        .hero {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: brightness(50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 0.5em;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 1.5em;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        .cta-buttons {
+            margin-top: 1em;
+            animation: fadeInUp 2s ease-in-out;
+        }
+
+        .cta-buttons button {
+            text-decoration: none;
+            padding: 0.8em 2em;
+            margin: 0 0.5em;
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 1.1em;
+            background-color: #0288d1;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .cta-buttons button:hover {
+            background-color: #01579b;
+            transform: scale(1.05);
+        }
+
+        .login-options,
+        .signup-options {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            opacity: 0; /* Hide initially */
+            transition: opacity 0.3s ease-in-out;
+            flex-direction: column;
+            margin-top: 1em;
+        }
+
+        .login-options button,
+        .signup-options button {
+            padding: 0.8em 1.5em;
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 1em;
+            background-color: #0288d1;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .login-options button:hover,
+        .signup-options button:hover {
+            background-color: #01579b;
+            transform: scale(1.05);
+        }
+
+        .login-options {
+            display: none; /* Hidden by default */
+        }
+
+        .signup-options {
+            display: none; /* Hidden by default */
+        }
+
+        .dashboard-preview {
+            width: 90%;
+            max-width: 1200px;
+            margin: 3em auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            align-items: stretch;
+            animation: fadeInUp 2.5s ease-in-out;
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            color: #003366;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            padding: 2em;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(2, 136, 209, 0.1);
+            transform: rotate(45deg);
+            transition: opacity 0.5s;
+        }
+
+        .dashboard-card:hover::before {
+            opacity: 0;
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 0.5em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-card p {
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .announcements {
+            width: 90%;
+            max-width: 1200px;
+            background: #f7f9fc;
+            color: #003366;
+            border-radius: 10px;
+            padding: 2em;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            margin: 3em auto;
+            animation: fadeInUp 3s ease-in-out;
+        }
+
+        .announcements h2 {
+            margin-bottom: 1em;
+            font-size: 2.2em;
+            color: #0288d1;
+            position: relative;
+        }
+
+        .announcements h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: #0288d1;
+            bottom: -10px;
+            left: 0;
+        }
+
+        .announcement-item {
+            padding: 1em 0;
+            font-size: 1.2em;
+            border-bottom: 1px solid #ccc;
+            opacity: 0;
+            animation: fadeInUp 1s ease-in-out forwards;
+        }
+
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+
+        .footer {
+            background: #003366;
+            color: #ffffff;
+            padding: 2em 0;
+            text-align: center;
+            animation: fadeIn 4s ease-in-out;
+        }
+
+        .footer p {
+            margin-bottom: 0.5em;
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #ffd700;
+        }
+
+        .footer-icons {
+            margin: 1em 0;
+        }
+
+        .footer-icons a {
+            color: #ffffff;
+            margin: 0 10px;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .footer-icons a:hover {
+            color: #ffd700;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Thane City Water Management</div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#announcements">Announcements</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <video autoplay muted loop>
+            <source src="watervid.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <h1>Thane City Water Management</h1>
+            <p>Efficient Management, Sustainable Future</p>
+            <div class="cta-buttons">
+                <button id="getStartedBtn">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-preview" id="features">
+        <div class="dashboard-card">
+            <h3>Water Usage Analytics</h3>
+            <p>View detailed reports on water usage across the city. Analyze trends and make informed decisions to optimize resource usage.</p>
+        </div>
+        <div class="dashboard-card">
+            <h3>Resource Allocation</h3>
+            <p>Manage and distribute resources effectively. Ensure that water resources are allocated where they are needed most.</p>
+        </div>
+        <div class="dashboard-card">
+            <h3>Alerts & Notifications</h3>
+            <p>Receive real-time alerts for any issues or updates. Stay informed about critical changes and maintenance schedules.</p>
+        </div>
+    </section>
+
+    <section class="announcements" id="announcements">
+        <h2>Latest Announcements</h2>
+        <div class="announcement-item" style="animation-delay: 0.2s;">
+            <p>New water conservation initiative starting next month.</p>
+        </div>
+        <div class="announcement-item" style="animation-delay: 0.4s;">
+            <p>Scheduled maintenance on 5th September. Expect temporary disruptions.</p>
+        </div>
+        <div class="announcement-item" style="animation-delay: 0.6s;">
+            <p>Annual water quality report has been published.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Thane City Water Management. All rights reserved.</p>
+        <div class="footer-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p><a href="#">About Us</a> | <a href="#">Contact</a> | <a href="#">Support</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const getStartedBtn = document.getElementById('getStartedBtn');
+
+            getStartedBtn.addEventListener('click', function () {
+                // Hide "Get Started" button
+                getStartedBtn.style.display = 'none';
+
+                // Create and add "Login" and "Sign Up" buttons
+                const loginBtn = document.createElement('button');
+                loginBtn.id = 'loginBtn';
+                loginBtn.textContent = 'Login';
+                loginBtn.classList.add('cta-button');
+
+                const signupBtn = document.createElement('button');
+                signupBtn.id = 'signupBtn';
+                signupBtn.textContent = 'Sign Up';
+                signupBtn.classList.add('cta-button');
+
+                document.querySelector('.cta-buttons').appendChild(loginBtn);
+                document.querySelector('.cta-buttons').appendChild(signupBtn);
+
+                // Create and add login and signup options
+                const loginOptions = document.createElement('div');
+                loginOptions.id = 'loginOptions';
+                loginOptions.classList.add('login-options');
+                loginOptions.innerHTML = `
+                    <button class="login-option" data-option="employee">Employee Login</button>
+                    <button class="login-option" data-option="customer">Customer Login</button>
+                `;
+
+                const signupOptions = document.createElement('div');
+                signupOptions.id = 'signupOptions';
+                signupOptions.classList.add('signup-options');
+                signupOptions.innerHTML = `
+                    <button class="signup-option" data-option="employee">Employee Sign Up</button>
+                    <button class="signup-option" data-option="customer">Customer Sign Up</button>
+                `;
+
+                document.querySelector('.cta-buttons').appendChild(loginOptions);
+                document.querySelector('.cta-buttons').appendChild(signupOptions);
+
+                // Show login and signup options
+                loginBtn.addEventListener('click', function () {
+                    loginOptions.style.opacity = 1;
+                    loginOptions.style.display = 'flex';
+                    signupOptions.style.display = 'none';
+                    signupOptions.style.opacity = 0;
+                });
+
+                signupBtn.addEventListener('click', function () {
+                    signupOptions.style.opacity = 1;
+                    signupOptions.style.display = 'flex';
+                    loginOptions.style.display = 'none';
+                    loginOptions.style.opacity = 0;
+                });
+
+                // Handle login and signup options click
+                document.querySelectorAll('.login-option').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const option = this.getAttribute('data-option');
+                        if (option === 'employee') {
+                            window.location.href = 'user.html';
+                        } else if (option === 'customer') {
+                            window.location.href = 'customer_login.html';
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.signup-option').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const option = this.getAttribute('data-option');
+                        if (option === 'employee') {
+                            window.location.href = 'employee-signup.html';
+                        } else if (option === 'customer') {
+                            window.location.href = 'customer-signup.html';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
